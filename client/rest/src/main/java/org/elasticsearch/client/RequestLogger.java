@@ -103,6 +103,22 @@ final class RequestLogger {
         }
     }
 
+    static void logFailedRequest(Log logger, HttpUriRequest request, HttpHost host, Exception e) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("request [" + request.getMethod() + " " + host + getUri(request.getRequestLine()) + "] failed", e);
+        }
+        if (tracer.isTraceEnabled()) {
+            String traceRequest;
+            try {
+                traceRequest = buildTraceRequest(request, host);
+            } catch (IOException e1) {
+                tracer.trace("error while reading request for trace purposes", e);
+                traceRequest = "";
+            }
+            tracer.trace(traceRequest);
+        }
+    }
+
     static String buildWarningMessage(HttpUriRequest request, HttpHost host, Header[] warnings) {
         StringBuilder message = new StringBuilder("request [").append(request.getMethod()).append(" ").append(host)
                 .append(getUri(request.getRequestLine())).append("] returned ").append(warnings.length).append(" warnings: ");
