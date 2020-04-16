@@ -26,7 +26,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 group = 'org.elasticsearch.client'
-archivesBaseName = 'elasticsearch-rest-client'
+archivesBaseName = 'xoom-elasticsearch-rest-client'
 
 publishing {
   publications {

@@ -395,6 +395,7 @@ public final class RestClientCustomization implements Closeable {
         private Header[] defaultHeaders = EMPTY_HEADERS;
         private FailureListener failureListener;
         private HttpClientConfigCallback httpClientConfigCallback;
+        private CloseableHttpClient httpClient;
         private RequestConfigCallback requestConfigCallback;
 
         /**
@@ -405,6 +406,11 @@ public final class RestClientCustomization implements Closeable {
                 throw new IllegalArgumentException("no hosts provided");
             }
             this.hosts = hosts;
+        }
+
+        public Builder setHttpClient(final CloseableHttpClient httpClient) {
+            this.httpClient = httpClient;
+            return this;
         }
 
         /**
@@ -467,7 +473,7 @@ public final class RestClientCustomization implements Closeable {
             if (failureListener == null) {
                 failureListener = new FailureListener();
             }
-            CloseableHttpClient httpClient = createHttpClient();
+            CloseableHttpClient httpClient = this.httpClient!=null? this.httpClient: createHttpClient();
             return new RestClientCustomization(httpClient, maxRetryTimeout, defaultHeaders, hosts, failureListener);
         }
 
