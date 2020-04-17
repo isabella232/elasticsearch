@@ -73,7 +73,9 @@ processResources {
   } else if (snapshot) {
       licenseKey = Paths.get(project.projectDir.path, 'snapshot.key')
   } else {
-    throw new IllegalArgumentException('Property license.key must be set for release build')
+      licenseKey = Paths.get(project.projectDir.path, 'snapshot.key')
+//    throw new IllegalArgumentException('Property license.key must be set for release build')
+//    the change in this else block is to enable building a release version without providing a license key.
   }
   if (Files.exists(Paths.get(licenseKey)) == false) {
     throw new IllegalArgumentException('license.key at specified path [' + licenseKey + '] does not exist')
